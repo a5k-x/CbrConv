@@ -34,12 +34,10 @@ class MainViewModel : ViewModel() {
         ).getData(true)
 
         scope.launch {
-
             data.enqueue(object : Callback<DataModel> {
                 override fun onResponse(call: Call<DataModel>, response: Response<DataModel>) {
                   liveData.postValue( response.body()?.let { AppState.Success(it) })
                 }
-
                 override fun onFailure(call: Call<DataModel>, t: Throwable) {
                     liveData.postValue(AppState.Error(t))
                 }
@@ -50,6 +48,4 @@ class MainViewModel : ViewModel() {
     fun closeScope() {
         scope.cancel()
     }
-
-
 }

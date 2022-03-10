@@ -4,18 +4,27 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class DataModel(
-    val timeStamp: String?,
-    val valute: List<Aui>?
-) : Parcelable
+class DataModel(
+    private val timeStamp: String?,
+    private val valute: List<Aui>?
+) : Parcelable {
+    fun gettimeStamp() = timeStamp
+    fun getValute() = valute
+}
 
 @Parcelize
 data class Aui(
-    val iD: String?,
-    val NumCode: Int?,
-    val charCode: String?,
-    val nominal: Int?,
+    private val iD: String?,
+    private val NumCode: Int?,
+    private val charCode: String?,
+    private val nominal: Int?,
     private val value: Double?,
-    val name: String?,
-    val previous: Double?
-) : Parcelable
+    private val name: String?,
+    private val previous: Double?
+) : Parcelable {
+    fun getChatrCode() = charCode
+    fun getNominal() = nominal
+    fun getvalue() = value
+    fun getName() = name
+
+}

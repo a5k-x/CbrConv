@@ -6,13 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.light.cbrconv.databinding.FragmentMainBinding
+import com.light.cbrconv.view.adapter.MainAdapter
 import com.light.cbrconv.viewmodel.AppState
 import com.light.cbrconv.viewmodel.MainViewModel
 
 class MainFragment : Fragment() {
 
     private var vb: FragmentMainBinding? = null
+    private var adapterMain:MainAdapter?=null
     private val viewModel: MainViewModel by lazy {
         MainViewModel()
     }
@@ -29,19 +33,19 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getLiveData().observe(viewLifecycleOwner) { it -> render(it) }
         viewModel.getUpdate()
+        vb?.recyclerContainer?.run {
+            layoutManager = LinearLayoutManager(context?.applicationContext,RecyclerView.VERTICAL,false)
+            adapterMain = MainAdapter()
+            adapter = adapterMain
+        }
     }
 
-    fun render(data: AppState) {
+    private fun render(data: AppState) {
         when (data) {
             is AppState.Success -> {
-                Log.i(
-                    "AAA", "Success " +
-                            "${data.listData.timeStamp.toString()}"
-                )
-                Log.i(
-                    "AAA", "Success listTest = " +
-                            "${data.listData.valute.toString()}"
-                )
+                data.listData.getValute()?.let { adapterMain?.init(it)
+                adapterMain?.notifyDataSetChanged()}
+
 
             }
             is AppState.Loading -> {
