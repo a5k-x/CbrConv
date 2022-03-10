@@ -49,6 +49,9 @@ class MainFragment : Fragment() {
             viewModel.countItemDB(isChecked)
             Log.i("AAA", "Checked = $isChecked")
         }
+        vb?.updateDataBtn?.setOnClickListener {
+            viewModel.getUpdate()
+        }
     }
 
     private fun render(data: AppState) {

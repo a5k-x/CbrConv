@@ -41,8 +41,9 @@
             android:gravity="center"
             android:text="Конвертация валюты" />
 
-        <TextView
+        <Button
             style="@style/TextColor"
+            android:id="@+id/updateDataBtn"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
