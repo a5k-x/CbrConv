@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,7 @@ class MainFragment : Fragment() {
 
     private var vb: FragmentMainBinding? = null
     private var adapterMain:MainAdapter?=null
+    private var checkAutoUpdate = true
     private val viewModel: MainViewModel by lazy {
         MainViewModel()
     }
@@ -32,11 +34,20 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getLiveData().observe(viewLifecycleOwner) { it -> render(it) }
-        viewModel.getUpdate()
+        viewModel.countItemDB(checkAutoUpdate)
         vb?.recyclerContainer?.run {
             layoutManager = LinearLayoutManager(context?.applicationContext,RecyclerView.VERTICAL,false)
             adapterMain = MainAdapter()
             adapter = adapterMain
+        }
+        initAutoUpdate()
+    }
+
+    private fun initAutoUpdate() {
+        vb?.autoUpdateBtn?.setOnCheckedChangeListener { buttonView, isChecked ->
+            checkAutoUpdate = isChecked
+            viewModel.countItemDB(isChecked)
+            Log.i("AAA", "Checked = $isChecked")
         }
     }
 
@@ -44,15 +55,24 @@ class MainFragment : Fragment() {
         when (data) {
             is AppState.Success -> {
                 data.listData.getValute()?.let { adapterMain?.init(it)
-                adapterMain?.notifyDataSetChanged()}
-
-
+                adapterMain?.notifyDataSetChanged()
+                    Log.i("AAA", "Данные c сети")
+                viewModel.setUpdateDataModel(data.listData.getValute()!!)
+                    Log.i("AAA", "Данные c сети записаны в БД")
+                }
+            }
+            is AppState.SuccessAui ->{
+                data.listData.let { adapterMain?.init(it)
+                    adapterMain?.notifyDataSetChanged()
+                    Log.i("AAA", "Данные из БД")
+                }
             }
             is AppState.Loading -> {
                 Log.i("AAA", "Loading ${data.numb}")
             }
             is AppState.Error -> {
-                Log.i("AAA", "Error ${data.e}")
+                Toast.makeText(context?.applicationContext,"${data.e.message}",Toast.LENGTH_SHORT).show()
+                Log.i("AAA", "Error ${data.e.message}")
             }
         }
     }

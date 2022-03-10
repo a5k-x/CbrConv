@@ -8,4 +8,5 @@ class RepositoryImp(private val datasource:DataSource<DataModel>):Repository<Dat
     override fun getData(): Call<DataModel> {
         return datasource.getData()
     }
+
 }

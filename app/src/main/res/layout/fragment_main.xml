@@ -3,42 +3,51 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+
     android:layout_height="match_parent"
     tools:context=".view.MainFragment">
 
-  <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/recycler_container"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-  <androidx.appcompat.widget.LinearLayoutCompat
-      android:layout_width="match_parent"
-      android:layout_height="50dp"
-      android:orientation="horizontal"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent">
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <com.google.android.material.radiobutton.MaterialRadioButton
-    android:layout_width="0dp"
-        android:layout_weight="1"
-    android:layout_height="match_parent"/>
-   <com.google.android.material.button.MaterialButton
-       android:layout_width="0dp"
-       android:layout_weight="1"
-       android:text="Конвертация валюты"
-       style="@style/TextColor"
-       android:backgroundTint="#00FFFFFF"
-       android:layout_height="match_parent"/>
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        style="@style/TextColor"
-        android:backgroundTint="#00FFFFFF"
-        android:text="Обновить"
-        android:layout_height="match_parent"/>
-  </androidx.appcompat.widget.LinearLayoutCompat>
+        <com.google.android.material.chip.Chip
+            android:id="@+id/autoUpdateBtn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:checkable="true"
+            android:checked="true"
+            android:text="Автообновление" />
+
+        <TextView
+            style="@style/TextColor"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Конвертация валюты" />
+
+        <TextView
+            style="@style/TextColor"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:backgroundTint="#00FFFFFF"
+            android:gravity="center"
+            android:text="Обновить" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>
