@@ -20,4 +20,9 @@ interface HistoryDao {
     @Update(entity = Aui::class)
     fun updateItem(item:Aui)
 
+    @Query("SELECT * FROM VALUTE WHERE charCode=:charCode")
+    fun searchValute(charCode:String):Aui
+
+    @Query("SELECT charCode FROM VALUTE")
+    fun searchAllCharCode():List<String>
 }

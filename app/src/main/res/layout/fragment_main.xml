@@ -3,19 +3,108 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
     tools:context=".view.MainFragment">
 
+    <!--Конвертер -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/convert_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+         />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/convert_container"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/container_func"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/name_enter_valute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Выберите валюту"
+            app:layout_constraintBottom_toTopOf="@+id/enter_valune"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Spinner
+            android:id="@+id/spinner_valute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/enter_valune"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="5"
+            android:inputType="numberDecimal"
+            android:maxEms="5"
+            android:text="1"
+            app:layout_constraintEnd_toStartOf="@id/name_X"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/spinner_valute" />
+
+        <TextView
+            android:id="@+id/name_X"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="X"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@id/enter_valune"
+            app:layout_constraintEnd_toStartOf="@id/enter_valune_number"
+            app:layout_constraintStart_toEndOf="@id/enter_valune"
+            app:layout_constraintTop_toTopOf="@id/enter_valune" />
+
+        <EditText
+            android:id="@+id/enter_valune_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="4"
+            android:inputType="numberDecimal"
+            android:maxEms="4"
+            android:text="1"
+            app:layout_constraintEnd_toStartOf="@id/name_result_symbol"
+            app:layout_constraintStart_toEndOf="@id/name_X"
+            app:layout_constraintTop_toTopOf="@id/enter_valune" />
+
+        <TextView
+            android:id="@+id/name_result_symbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="="
+            android:textSize="30sp"
+            app:layout_constraintBottom_toBottomOf="@id/enter_valune"
+            app:layout_constraintEnd_toStartOf="@id/result_valute"
+            app:layout_constraintStart_toEndOf="@id/enter_valune_number"
+            app:layout_constraintTop_toTopOf="@id/enter_valune" />
+
+        <TextView
+            android:id="@+id/result_valute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxEms="5"
+            android:text="***"
+            android:textSize="25sp"
+            app:layout_constraintBottom_toBottomOf="@id/enter_valune"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/name_result_symbol"
+            app:layout_constraintTop_toTopOf="@id/enter_valune" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+<!--Нижнее меню -->
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/container_func"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/white"
@@ -30,10 +119,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:checkable="true"
-            android:checked="true"
+            android:checked="false"
             android:text="Автообновление" />
 
         <TextView
+            android:id="@+id/convertValuteBtn"
             style="@style/TextColor"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -42,8 +132,8 @@
             android:text="Конвертация валюты" />
 
         <Button
-            style="@style/TextColor"
             android:id="@+id/updateDataBtn"
+            style="@style/TextColor"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

@@ -47,12 +47,8 @@ dependencies {
     kapt "androidx.room:room-compiler:$roomVersion"
     implementation("androidx.room:room-ktx:$roomVersion")
 
-
-
     implementation ("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation ("com.squareup.retrofit2:converter-gson:$retrofitVersion")
-    implementation ("com.squareup.retrofit2:adapter-rxjava3:$retrofitVersion")
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.2'
 
     implementation "androidx.recyclerview:recyclerview:1.2.1"
 

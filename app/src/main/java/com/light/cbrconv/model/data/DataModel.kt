@@ -9,7 +9,6 @@ import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-
 class DataModel(
      private val timeStamp: String?,
      private val valute: List<Aui>?

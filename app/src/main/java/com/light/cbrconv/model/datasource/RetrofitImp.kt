@@ -80,7 +80,7 @@ class RetrofitImp : DataSource<DataModel> {
             )
             .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
             .create()
-
+//https://www.cbr-xml-daily.ru/daily_json.js
         return Retrofit.Builder()
             .baseUrl("https://www.cbr-xml-daily.ru/")
             .addConverterFactory(GsonConverterFactory.create(json))
