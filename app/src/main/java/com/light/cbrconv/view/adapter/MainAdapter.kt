@@ -20,8 +20,8 @@ class MainAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         fun bind(position: Int) {
             vb?.nameValute.text = dataList[position].getName()
             vb?.charCode.text = dataList[position].getChatrCode()
-            vb?.nominal.text ="Номинал: "+ dataList[position].getNominal().toString()
-            vb?.value.text ="Курс: " +dataList[position].getValue().toString()
+            vb?.nominal.text = "Номинал: " + dataList[position].getNominal().toString()
+            vb?.value.text = "Курс: " + dataList[position].getValue().toString()
 
         }
 

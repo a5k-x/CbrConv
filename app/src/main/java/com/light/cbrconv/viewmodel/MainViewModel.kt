@@ -4,13 +4,15 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.light.cbrconv.App
 import com.light.cbrconv.model.data.Aui
 import com.light.cbrconv.model.datasource.DataSourceLocal
 import com.light.cbrconv.model.datasource.DataSourceRemote
 import com.light.cbrconv.model.repository.RepositoryImp
 import com.light.cbrconv.model.repository.RepositoryLocalImp
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import java.util.*
 
 
@@ -39,7 +41,7 @@ class MainViewModel() : ViewModel() {
         liveData.postValue(AppState.Loading(1))
         scope.launch {
             val data = RepositoryImp(DataSourceRemote()).getData()
-        liveData.postValue(data)
+            liveData.postValue(data)
             Log.i("AAA", "Имя потока выполнения запроса в сеть - ${Thread.currentThread().name}")
         }
 
@@ -73,7 +75,7 @@ class MainViewModel() : ViewModel() {
 
                 } else {
                     //если бд не пуста, то вывод всех данных c бд
-                   liveData.postValue(RepositoryLocalImp(DataSourceLocal()).getListAllValute())
+                    liveData.postValue(RepositoryLocalImp(DataSourceLocal()).getListAllValute())
                 }
             }
         }
@@ -83,7 +85,7 @@ class MainViewModel() : ViewModel() {
     //Обновление данных в БД
     fun setUpdateDataModel(data: List<Aui>) {
         scope.launch {
-           RepositoryLocalImp(DataSourceLocal()).updateAllList(data)
+            RepositoryLocalImp(DataSourceLocal()).updateAllList(data)
         }
     }
 

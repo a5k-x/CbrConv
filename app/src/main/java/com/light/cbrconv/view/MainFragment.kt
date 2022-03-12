@@ -53,7 +53,7 @@ class MainFragment : Fragment() {
             adapter = adapterMain
         }
         initAutoUpdate()
-       // viewModel.searchAllCharCode()
+        // viewModel.searchAllCharCode()
     }
 
     private fun initAutoUpdate() {

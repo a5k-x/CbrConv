@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="item_size_height">80dp</dimen>
+    <dimen name="item_margin">10dp</dimen>
+    <dimen name="item_charCode_textSize">30sp</dimen>
+    <dimen name="item_nameValute_textSize">15sp</dimen>
+    <dimen name="item_valute_textSize">25sp</dimen>
+    <dimen name="item_valute_marginRight">8dp</dimen>
+    <dimen name="zero_dp">0dp</dimen>
+    <dimen name="convert_name_X_textSize">20sp</dimen>
+    <dimen name="convert_name_result_symbol_textSize">30sp</dimen>
+    <dimen name="convert_result_valute_textSize">25sp</dimen>
+    <dimen name="convert_Valute_margin">5dp</dimen>
+</resources>

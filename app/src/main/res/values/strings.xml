@@ -2,4 +2,13 @@
     <string name="app_name">CbrConv</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="auto_update_btn_text">Автообновление</string>
+    <string name="convert_name_enter_valute_text">Выберите валюту</string>
+    <string name="convert_enter_valune_text">1</string>
+    <string name="convert_name_text">X</string>
+    <string name="convert_enter_valune_number_text">1</string>
+    <string name="convert_name_result_symbol_text">=</string>
+    <string name="convert_result_valute_text">***</string>
+    <string name="convert_Valute_Btn_text">Конвертация</string>
+    <string name="update_data_btn">Обновить</string>
 </resources>

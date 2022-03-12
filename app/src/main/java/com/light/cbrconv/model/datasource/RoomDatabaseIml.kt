@@ -11,7 +11,7 @@ class RoomDatabaseIml : IRoomDatabase {
 
     //Получить кол-во строк в БД
     override fun getCountDB(): Int {
-        var countDB = db?.countCoulms()
+        val countDB = db?.countCoulms()
         if (countDB != null) {
             return countDB
         } else return 0
@@ -30,7 +30,7 @@ class RoomDatabaseIml : IRoomDatabase {
 
     //Получить список валют
     override fun getListAllValute(): AppState {
-        var dataList = db?.getDataList()
+        val dataList = db?.getDataList()
         if (!dataList.isNullOrEmpty()) {
             return AppState.SuccessAui(dataList)
         } else return AppState.Error(Throwable("Нет данных"))
@@ -60,7 +60,7 @@ class RoomDatabaseIml : IRoomDatabase {
 
     //Получить список CharCode из БД
     override fun getListCharCode(): AppState {
-        var data = db?.searchAllCharCode()
+        val data = db?.searchAllCharCode()
         if (!data.isNullOrEmpty()) {
             return AppState.SuccessCharCode(data)
         } else return AppState.Error(Throwable("Нет дынных"))

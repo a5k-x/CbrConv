@@ -15,7 +15,6 @@ class MainActivity : AppCompatActivity() {
         vb = ActivityMainBinding.inflate(layoutInflater)
         setContentView(vb?.root)
         App.instance
-
         initFragment()
     }
 

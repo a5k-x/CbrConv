@@ -2,27 +2,38 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/FoneBtn"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.MainFragment">
 
-    <!--Конвертер -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_container"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/zero_dp"
         app:layout_constraintBottom_toTopOf="@+id/convert_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-         />
+        app:layout_constraintTop_toTopOf="parent" />
 
+    <com.google.android.material.chip.Chip
+        android:id="@+id/autoUpdateBtn"
+        android:layout_width="@dimen/zero_dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:checkable="true"
+        android:checked="false"
+        android:text="@string/auto_update_btn_text"
+        app:layout_constraintBottom_toBottomOf="@+id/recycler_container"
+        app:layout_constraintStart_toStartOf="parent" />
+    <!--Конвертер -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/convert_container"
-        android:visibility="gone"
+        style="@style/ConvertFone"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:background="#FFFFFF"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/container_func"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -30,7 +41,7 @@
             android:id="@+id/name_enter_valute"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Выберите валюту"
+            android:text="@string/convert_name_enter_valute_text"
             app:layout_constraintBottom_toTopOf="@+id/enter_valune"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -50,7 +61,7 @@
             android:ems="5"
             android:inputType="numberDecimal"
             android:maxEms="5"
-            android:text="1"
+            android:text="@string/convert_enter_valune_text"
             app:layout_constraintEnd_toStartOf="@id/name_X"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/spinner_valute" />
@@ -59,8 +70,8 @@
             android:id="@+id/name_X"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="X"
-            android:textSize="20sp"
+            android:text="@string/convert_name_text"
+            android:textSize="@dimen/convert_name_X_textSize"
             app:layout_constraintBottom_toBottomOf="@id/enter_valune"
             app:layout_constraintEnd_toStartOf="@id/enter_valune_number"
             app:layout_constraintStart_toEndOf="@id/enter_valune"
@@ -73,17 +84,18 @@
             android:ems="4"
             android:inputType="numberDecimal"
             android:maxEms="4"
-            android:text="1"
+            android:text="@string/convert_enter_valune_number_text"
             app:layout_constraintEnd_toStartOf="@id/name_result_symbol"
             app:layout_constraintStart_toEndOf="@id/name_X"
-            app:layout_constraintTop_toTopOf="@id/enter_valune" />
+            app:layout_constraintTop_toTopOf="@id/enter_valune"
+            />
 
         <TextView
             android:id="@+id/name_result_symbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="="
-            android:textSize="30sp"
+            android:text="@string/convert_name_result_symbol_text"
+            android:textSize="@dimen/convert_name_result_symbol_textSize"
             app:layout_constraintBottom_toBottomOf="@id/enter_valune"
             app:layout_constraintEnd_toStartOf="@id/result_valute"
             app:layout_constraintStart_toEndOf="@id/enter_valune_number"
@@ -94,51 +106,42 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxEms="5"
-            android:text="***"
-            android:textSize="25sp"
+            android:text="@string/convert_result_valute_text"
+            android:textSize="@dimen/convert_result_valute_textSize"
             app:layout_constraintBottom_toBottomOf="@id/enter_valune"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/name_result_symbol"
             app:layout_constraintTop_toTopOf="@id/enter_valune" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-<!--Нижнее меню -->
+    <!--Нижнее меню -->
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/container_func"
+        style="@style/LinearFone"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <com.google.android.material.chip.Chip
-            android:id="@+id/autoUpdateBtn"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:checkable="true"
-            android:checked="false"
-            android:text="Автообновление" />
-
-        <TextView
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/convertValuteBtn"
             style="@style/TextColor"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/convert_Valute_margin"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="Конвертация валюты" />
+            android:text="@string/convert_Valute_Btn_text" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/updateDataBtn"
             style="@style/TextColor"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_width="@dimen/zero_dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/convert_Valute_margin"
             android:layout_weight="1"
-            android:backgroundTint="#00FFFFFF"
-            android:gravity="center"
-            android:text="Обновить" />
+            android:text="@string/update_data_btn" />
     </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.constraintlayout.widget.ConstraintLayout>
