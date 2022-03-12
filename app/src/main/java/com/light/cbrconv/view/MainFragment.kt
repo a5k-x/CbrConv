@@ -52,9 +52,8 @@ class MainFragment : Fragment() {
             adapterMain = MainAdapter()
             adapter = adapterMain
         }
-
         initAutoUpdate()
-        viewModel.searchAllCharCode()
+       // viewModel.searchAllCharCode()
     }
 
     private fun initAutoUpdate() {
@@ -67,9 +66,11 @@ class MainFragment : Fragment() {
             viewModel.getUpdate()
         }
         vb?.convertValuteBtn?.setOnClickListener {
+
             if (vb?.convertContainer?.visibility == View.VISIBLE) {
                 vb?.convertContainer?.visibility = View.GONE
             } else {
+                viewModel.searchAllCharCode()
                 vb?.convertContainer?.visibility = View.VISIBLE
             }
         }
@@ -116,14 +117,17 @@ class MainFragment : Fragment() {
 
     private fun render(data: AppState) {
         when (data) {
+            //Результат от сети
             is AppState.Success -> {
                 data.listData.getValute()?.let {
                     adapterMain?.init(it)
                     adapterMain?.notifyDataSetChanged()
                     Log.i("AAA", "Данные c сети")
+                    //Обновить данные в бд если есть, если нет то добавить все записи
                     viewModel.setUpdateDataModel(data.listData.getValute()!!)
                 }
             }
+            // Вывод с БД
             is AppState.SuccessAui -> {
                 data.listData.let {
                     adapterMain?.init(it)
@@ -131,6 +135,7 @@ class MainFragment : Fragment() {
 
                 }
             }
+            //показываем список валют
             is AppState.SuccessCharCode -> {
                 listCharCode = data.listCharCode
                 val adapterForSpinner = ArrayAdapter(
@@ -140,6 +145,7 @@ class MainFragment : Fragment() {
                 )
                 vb?.spinnerValute?.adapter = adapterForSpinner
             }
+            //Выводим объект объектов (для конвертации)
             is AppState.SuccessAuiTest -> {
                 modelAui = data.listData
                 sherlokHolms()
@@ -153,19 +159,6 @@ class MainFragment : Fragment() {
                 Log.i("AAA", "Error ${data.e.message}")
             }
         }
-    }
-
-//сохранение в бандл
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-    }
-
-    //Загрузка из бандола
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-
     }
 
     companion object {

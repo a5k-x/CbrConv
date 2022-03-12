@@ -3,15 +3,34 @@ package com.light.cbrconv.model.datasource
 import com.google.gson.*
 import com.light.cbrconv.model.data.Aui
 import com.light.cbrconv.model.data.DataModel
+import com.light.cbrconv.viewmodel.AppState
 import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Type
 
-class RetrofitImp : DataSource<DataModel> {
+class RetrofitImp : DataSource<AppState> {
 
-    override fun getData(): Call<DataModel> {
-        return getService().getData()
+    private var app: AppState = AppState.Loading(1)
+    override fun getData(): AppState {
+
+        val data = getService().getData()
+        data.enqueue(object : Callback<DataModel> {
+            override fun onResponse(call: Call<DataModel>, response: Response<DataModel>) {
+                if (response.body() != null) {
+                    app = AppState.Success(response.body()!!)
+                } else {
+                    app = AppState.Error(Throwable("Пустой объект"))
+                }
+            }
+            override fun onFailure(call: Call<DataModel>, t: Throwable) {
+                app = AppState.Error(t)
+            }
+        })
+        Thread.sleep(1000)
+        return app
     }
 
     private fun getService(): ApiService {
@@ -35,9 +54,7 @@ class RetrofitImp : DataSource<DataModel> {
                             .setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE)
                             .create()
                         val listKey = listOf(
-                            "AUD",
-                            "AZN",
-                            "GBP",
+                            "AUD", "AZN", "GBP",
                             "BYN",
                             "BGN",
                             "BRL",

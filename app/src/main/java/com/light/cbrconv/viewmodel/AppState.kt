@@ -8,7 +8,6 @@ import kotlinx.parcelize.Parcelize
 sealed class AppState{
     @Parcelize
     data class Success(val listData: DataModel): AppState(), Parcelable
-
     data class SuccessCharCode(val listCharCode:List<String>):AppState()
     data class SuccessAuiTest(val listData: Aui): AppState()
     @Parcelize

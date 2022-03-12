@@ -5,6 +5,7 @@ import com.light.cbrconv.viewmodel.AppState
 import retrofit2.Call
 
 interface DataSource<T> {
-    fun getData():Call<T>
+   // fun getData():Call<T>
+   fun getData():T
 
 }
