@@ -11,6 +11,7 @@ sealed class AppState{
     data class SuccessCharCode(val listCharCode:List<String>):AppState()
     data class SuccessAuiTest(val listData: Aui): AppState()
     data class SuccessAui(val listData: List<Aui>): AppState()
-    data class Loading(val numb:Int):AppState()
+    data class SuccessConvertationTransaction(val resultTransaction: String): AppState()
+
     data class Error(val e:Throwable):AppState()
 }

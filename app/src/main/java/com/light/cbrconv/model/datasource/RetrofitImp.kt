@@ -11,10 +11,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.reflect.Type
 
-class RetrofitImp : DataSource<AppState> {
+class RetrofitImp : DataSource<DataModel> {
 
-    private var app: AppState = AppState.Loading(1)
-    override fun getData(): AppState {
+   override suspend fun getData(): DataModel {/*
 
         val data = getService().getData()
         data.enqueue(object : Callback<DataModel> {
@@ -29,8 +28,8 @@ class RetrofitImp : DataSource<AppState> {
                 app = AppState.Error(t)
             }
         })
-        Thread.sleep(1000)
-        return app
+        Thread.sleep(1000)*/
+        return getService().getData()
     }
 
     private fun getService(): ApiService {

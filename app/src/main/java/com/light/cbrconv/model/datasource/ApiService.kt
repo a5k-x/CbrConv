@@ -7,5 +7,5 @@ import retrofit2.http.GET
 
 interface ApiService {
     @GET("daily_json.js")
-    fun getData(): Call<DataModel>
+   suspend fun getData(): DataModel
 }

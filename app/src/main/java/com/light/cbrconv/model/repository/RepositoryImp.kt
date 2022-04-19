@@ -1,13 +1,11 @@
 package com.light.cbrconv.model.repository
 
+import com.light.cbrconv.model.data.DataModel
 import com.light.cbrconv.model.datasource.DataSource
-import com.light.cbrconv.viewmodel.AppState
 
-class RepositoryImp(private val datasource:DataSource<AppState>):IRepository<AppState> {
-    override fun getData(): AppState {
+class RepositoryImp(private val datasource: DataSource<DataModel>) : IRepository<DataModel> {
+    override suspend fun getData(): DataModel {
         return datasource.getData()
     }
-
-
 
 }

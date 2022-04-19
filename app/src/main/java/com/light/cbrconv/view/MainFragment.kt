@@ -24,7 +24,7 @@ class MainFragment : Fragment() {
     private var adapterMain: MainAdapter? = null
     private var checkAutoUpdate = false
     private var checkVisibleConvert = false
-    private var listCharCode: List<String> = listOf("Пустой список")
+    private var listCharCode: List<String> = emptyList()
     private var modelAui: Aui? = null
     private val viewModel: MainViewModel by lazy {
         MainViewModel()
@@ -42,9 +42,10 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getLiveData().observe(viewLifecycleOwner) { it -> render(it) }
-        viewModel.getLiveDataConvert().observe(viewLifecycleOwner) { it -> render(it) }
-        viewModel.getLiveDataConvertAui().observe(viewLifecycleOwner) { it -> render(it) }
+        viewModel._livaData.observe(viewLifecycleOwner) { dataModelFromRemote -> render(dataModelFromRemote) }
+        viewModel._liveDataConvert.observe(viewLifecycleOwner) { it -> render(it) }
+        viewModel._liveDataConvertAui.observe(viewLifecycleOwner) { it -> render(it) }
+        viewModel._liveDataCurrencyTransaction.observe(viewLifecycleOwner) {resultTransaction -> render(resultTransaction)}
         viewModel.countItemDB(checkAutoUpdate)
         vb?.recyclerContainer?.run {
             layoutManager =
@@ -53,14 +54,13 @@ class MainFragment : Fragment() {
             adapter = adapterMain
         }
         initAutoUpdate()
-        // viewModel.searchAllCharCode()
+
     }
 
     private fun initAutoUpdate() {
         vb?.autoUpdateBtn?.setOnCheckedChangeListener { buttonView, isChecked ->
             checkAutoUpdate = isChecked
             viewModel.countItemDB(isChecked)
-            Log.i("AAA", "Checked = $isChecked")
         }
         vb?.updateDataBtn?.setOnClickListener {
             viewModel.getUpdate()
@@ -75,11 +75,11 @@ class MainFragment : Fragment() {
             }
         }
         vb?.enterValune?.doOnTextChanged { _, _, _, _ ->
-            sherlokHolms()
+            sherlockHolmes()
         }
 
         vb?.enterValuneNumber?.doOnTextChanged { _, _, _, _ ->
-            sherlokHolms()
+            sherlockHolmes()
         }
 
         vb?.spinnerValute?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -98,33 +98,31 @@ class MainFragment : Fragment() {
 
     }
 
-    fun sherlokHolms() {
-        if (!vb?.enterValune?.text.toString()
-                .isNullOrEmpty() && !vb?.enterValuneNumber?.text.isNullOrEmpty() && modelAui != null
+    private fun sherlockHolmes() {
+        if (vb?.enterValune?.text.toString().isNotEmpty() && !vb?.enterValuneNumber?.text.isNullOrEmpty() && modelAui != null
         ) {
-            val textValute = vb?.enterValune?.text.toString().toDouble()
-            val textNumberValute = vb?.enterValuneNumber?.text.toString().toDouble()
-            val result = textValute * textNumberValute * modelAui?.getValue()!!.toInt() /
-                    modelAui?.getNominal()!!.toInt()
-            vb?.resultValute?.text = result.toString()
+            try {
+                val currency = vb?.enterValune?.text.toString().toBigDecimal()
+                val amountCurrency = vb?.enterValuneNumber?.text.toString().toBigDecimal()
+                val auiModel = modelAui!!
+                viewModel.currentConvertation(currency, amountCurrency, auiModel)
 
+            } catch (e:Exception){
+                Log.e("ERROR", e.message.toString())
+            }
         } else {
-            vb?.resultValute?.text = "***"
+            vb?.resultValute?.text = FLAG_FIELD
         }
-
-
     }
 
     private fun render(data: AppState) {
         when (data) {
             //Результат от сети
             is AppState.Success -> {
-                data.listData.getValute()?.let {
+                data.listData.valute?.let {
                     adapterMain?.init(it)
-                    adapterMain?.notifyDataSetChanged()
-                    Log.i("AAA", "Данные c сети")
                     //Обновить данные в бд если есть, если нет то добавить все записи
-                    viewModel.setUpdateDataModel(data.listData.getValute()!!)
+                    viewModel.setUpdateDataModel(data.listData.valute!!)
                 }
             }
             // Вывод с БД
@@ -148,11 +146,13 @@ class MainFragment : Fragment() {
             //Выводим объект объектов (для конвертации)
             is AppState.SuccessAuiTest -> {
                 modelAui = data.listData
-                sherlokHolms()
+                sherlockHolmes()
             }
-            is AppState.Loading -> {
-                Log.i("AAA", "Loading ${data.numb}")
+            //Вернуть результат вычесления конвертации валюты
+            is AppState.SuccessConvertationTransaction -> {
+                vb?.resultValute?.text = data.resultTransaction
             }
+
             is AppState.Error -> {
                 Toast.makeText(context?.applicationContext, "${data.e.message}", Toast.LENGTH_SHORT)
                     .show()
@@ -162,7 +162,7 @@ class MainFragment : Fragment() {
     }
 
     companion object {
-
+        private const val FLAG_FIELD = "***"
         @JvmStatic
         fun newInstance() = MainFragment()
     }

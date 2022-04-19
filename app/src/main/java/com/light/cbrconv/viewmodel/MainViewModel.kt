@@ -1,53 +1,55 @@
 package com.light.cbrconv.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.light.cbrconv.model.data.Aui
+import com.light.cbrconv.model.data.CurrencyConvertation
 import com.light.cbrconv.model.datasource.DataSourceLocal
 import com.light.cbrconv.model.datasource.DataSourceRemote
 import com.light.cbrconv.model.repository.RepositoryImp
 import com.light.cbrconv.model.repository.RepositoryLocalImp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import java.math.BigDecimal
 import java.util.*
 
 
 class MainViewModel() : ViewModel() {
 
     private val scope = CoroutineScope(Dispatchers.IO)
+
     private var liveData = MutableLiveData<AppState>()
+     val _livaData:LiveData<AppState> = liveData
+
     private var liveDataConvert = MutableLiveData<AppState>()
+     val _liveDataConvert:LiveData<AppState> = liveDataConvert
+
     private var liveDataConvertAui = MutableLiveData<AppState>()
+     val _liveDataConvertAui:LiveData<AppState> = liveDataConvertAui
+
+    private var liveDataCurrencyTransaction = MutableLiveData<AppState>()
+     val _liveDataCurrencyTransaction:LiveData<AppState> = liveDataCurrencyTransaction
+
     private var timer: Timer? = null
 
-    fun getLiveData(): LiveData<AppState> {
-        return liveData
-    }
+   /* fun getLiveData() = _livaData
 
-    fun getLiveDataConvert(): LiveData<AppState> {
-        return liveDataConvert
-    }
+    fun getLiveDataConvert() = _liveDataConvert
 
-    fun getLiveDataConvertAui(): LiveData<AppState> {
-        return liveDataConvertAui
-    }
+    fun getLiveDataConvertAui() = _liveDataConvertAui
+
+    fun geLiveDataCurrencyTransaction() = _liveDataCurrencyTransaction
+*/
 
     //Получить данные из сети
     fun getUpdate() {
-        liveData.postValue(AppState.Loading(1))
-        scope.launch {
+       scope.launch {
             val data = RepositoryImp(DataSourceRemote()).getData()
-            liveData.postValue(data)
-            Log.i("AAA", "Имя потока выполнения запроса в сеть - ${Thread.currentThread().name}")
-        }
-
-
+            liveData.postValue(AppState.Success(data))
+       }
     }
-
 
     //Задать интервал запросов если БД пустая то запрос в сеть
     fun countItemDB(boolean: Boolean) {
@@ -58,7 +60,6 @@ class MainViewModel() : ViewModel() {
         if (boolean) {
             timer?.schedule(object : TimerTask() {
                 override fun run() {
-                    Log.i("AAA", "Задача TimerTask")
                     getUpdate()
                 }
             }, 0L, 15000)
@@ -70,7 +71,7 @@ class MainViewModel() : ViewModel() {
                 val countsItemDatabase: Int = RepositoryLocalImp(DataSourceLocal()).getCountDB()
                 if (countsItemDatabase <= 0 || countsItemDatabase == null) {
                     //если нет данных отобразить ошибку
-                    liveData.postValue(AppState.Error(Throwable("База данных пуста")))
+                    liveData.postValue(AppState.Error(Throwable(ERROR_INFO_DB)))
                     getUpdate()
 
                 } else {
@@ -106,9 +107,15 @@ class MainViewModel() : ViewModel() {
             )
         }
     }
-
-
-    fun closeScope() {
-        scope.cancel()
+    //Выполнить конвертацию
+    fun currentConvertation(currency: BigDecimal, amountCurrency: BigDecimal, auiModel:Aui){
+        scope.launch {
+            val result = CurrencyConvertation().currencyTransactions(currency = currency, amountCurrency = amountCurrency, selectCurrency = auiModel)
+                .toString()
+            liveDataCurrencyTransaction.postValue(AppState.SuccessConvertationTransaction(result))
+        }
+    }
+    companion object{
+        private const val ERROR_INFO_DB = "База данных пуста"
     }
 }
