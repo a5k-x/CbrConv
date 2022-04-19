@@ -12,8 +12,10 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.light.cbrconv.App
 import com.light.cbrconv.databinding.FragmentMainBinding
 import com.light.cbrconv.model.data.Aui
+import com.light.cbrconv.model.datasource.RetrofitImp
 import com.light.cbrconv.view.adapter.MainAdapter
 import com.light.cbrconv.viewmodel.AppState
 import com.light.cbrconv.viewmodel.MainViewModel

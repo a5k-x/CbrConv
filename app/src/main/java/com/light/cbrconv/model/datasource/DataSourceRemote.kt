@@ -1,10 +1,17 @@
 package com.light.cbrconv.model.datasource
 
+import com.light.cbrconv.App
 import com.light.cbrconv.model.data.DataModel
+import javax.inject.Inject
 
-class DataSourceRemote(private val remote:RetrofitImp = RetrofitImp()):DataSource<DataModel> {
+class DataSourceRemote:DataSource<DataModel> {
 
-    override suspend fun getData(): DataModel {
-       return remote.getData()
+    init {
+        App.instance.appComponent.inject(this)
     }
+
+    @Inject lateinit var remote: RetrofitImp
+
+    override suspend fun getData(): DataModel = remote.getData()
+
 }

@@ -4,24 +4,26 @@ import android.util.Log
 import com.light.cbrconv.App
 import com.light.cbrconv.model.data.Aui
 import com.light.cbrconv.viewmodel.AppState
+import javax.inject.Inject
 
 class RoomDatabaseIml : IRoomDatabase {
 
-    private val db = App.instancedb?.getDao()
+    init {
+        App.instance.appComponent.inject(this)
+    }
+
+    @Inject lateinit var db: HistoryDao
 
     //Получить кол-во строк в БД
     override fun getCountDB(): Int {
-        val countDB = db?.countCoulms()
-        if (countDB != null) {
-            return countDB
-        } else return 0
+        return db.countCoulms()
     }
 
     //Вставка данных
     override fun getInsertAll(list: List<Aui>) {
         try {
             for (i in list.indices) {
-                db?.insertAll(list[i])
+                db.insertAll(list[i])
             }
         } catch (e: Exception) {
             Log.e("InsertError", "Ошибка вставки данных в БД ${e.message}")
@@ -30,19 +32,19 @@ class RoomDatabaseIml : IRoomDatabase {
 
     //Получить список валют
     override fun getListAllValute(): AppState {
-        val dataList = db?.getDataList()
+        val dataList = db.getDataList()
         if (!dataList.isNullOrEmpty()) {
             return AppState.SuccessAui(dataList)
         } else return AppState.Error(Throwable("Нет данных"))
     }
 
-    override fun updateAllList(itemlist: List<Aui>) {
+    override fun updateAllList(itemList: List<Aui>) {
         try {
             if (getCountDB()>0){
-            for (i in itemlist.indices) {
-                db?.updateItem(itemlist[i])
+            for (i in itemList.indices) {
+                db.updateItem(itemList[i])
             }} else {
-                getInsertAll(itemlist)
+                getInsertAll(itemList)
             }
         } catch (e: Exception) {
             Log.e("InsertError", "Ошибка обновления данных в БД ${e.message}")
@@ -51,16 +53,13 @@ class RoomDatabaseIml : IRoomDatabase {
 
     //Получение валюты из бд
     override fun getDataCharCode(charCode: String): AppState {
-        val dataCharCode = db?.searchValute(charCode)
-        if (dataCharCode != null) {
-            return AppState.SuccessAuiTest(dataCharCode)
-        } else
-            return AppState.Error(Throwable("Нет данных в бд"))
+        val dataCharCode = db.searchValute(charCode)
+        return AppState.SuccessAuiTest(dataCharCode)
     }
 
     //Получить список CharCode из БД
     override fun getListCharCode(): AppState {
-        val data = db?.searchAllCharCode()
+        val data = db.searchAllCharCode()
         if (!data.isNullOrEmpty()) {
             return AppState.SuccessCharCode(data)
         } else return AppState.Error(Throwable("Нет дынных"))

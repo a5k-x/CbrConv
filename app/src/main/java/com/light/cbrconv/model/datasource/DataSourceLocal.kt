@@ -1,9 +1,17 @@
 package com.light.cbrconv.model.datasource
 
+import com.light.cbrconv.App
 import com.light.cbrconv.model.data.Aui
 import com.light.cbrconv.viewmodel.AppState
+import javax.inject.Inject
 
-class DataSourceLocal(private val roomDatabaseIml: RoomDatabaseIml = RoomDatabaseIml()):IRoomDatabase {
+class DataSourceLocal():IRoomDatabase {
+
+    init {
+        App.instance.appComponent.inject(this)
+    }
+
+    @Inject lateinit var roomDatabaseIml: IRoomDatabase
 
     override fun getCountDB(): Int {
        return roomDatabaseIml.getCountDB()

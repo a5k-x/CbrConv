@@ -1,10 +1,18 @@
 package com.light.cbrconv.model.repository
 
+import com.light.cbrconv.App
 import com.light.cbrconv.model.data.Aui
+import com.light.cbrconv.model.datasource.DataSourceLocal
 import com.light.cbrconv.model.datasource.IRoomDatabase
 import com.light.cbrconv.viewmodel.AppState
+import javax.inject.Inject
 
-class RepositoryLocalImp(private val remote: IRoomDatabase) : IRepositoryLocal {
+class RepositoryLocalImp() : IRepositoryLocal {
+
+    init {
+        App.instance.appComponent.inject(this)
+    }
+    @Inject lateinit var remote: DataSourceLocal
 
     override fun getCountDB(): Int {
         return remote.getCountDB()

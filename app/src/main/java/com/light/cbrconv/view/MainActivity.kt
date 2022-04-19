@@ -3,7 +3,6 @@ package com.light.cbrconv.view
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.light.cbrconv.App
-import com.light.cbrconv.R
 import com.light.cbrconv.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -15,9 +14,9 @@ class MainActivity : AppCompatActivity() {
         vb = ActivityMainBinding.inflate(layoutInflater)
         setContentView(vb?.root)
         App.instance
+        App.instance.appComponent.inject(this)
         initFragment()
     }
-
 
     private fun initFragment() {
         vb?.fragmentContainer?.id?.let {
