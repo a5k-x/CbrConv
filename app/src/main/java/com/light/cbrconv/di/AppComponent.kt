@@ -1,25 +1,21 @@
 package com.light.cbrconv.di
 
-import com.light.cbrconv.model.datasource.DataSourceLocal
-import com.light.cbrconv.model.datasource.DataSourceRemote
-import com.light.cbrconv.model.datasource.RetrofitImp
-import com.light.cbrconv.model.datasource.RoomDatabaseIml
-import com.light.cbrconv.model.repository.RepositoryImp
-import com.light.cbrconv.model.repository.RepositoryLocalImp
-import com.light.cbrconv.view.MainActivity
-import com.light.cbrconv.viewmodel.MainViewModel
+import android.content.Context
+
+import com.light.cbrconv.ui.MainFragment
+import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ApiModule::class,AppModule::class,DbModule::class])
+@Component(modules = [DataModule::class, DomainModule::class, PresentationModule::class, ViewModelModule::class, NetworkModule::class, DatabaseModule::class])
 interface AppComponent {
-    fun inject(retrofit: RetrofitImp)
-    fun inject(mainActivity: MainActivity)
-    fun inject(roomDatabaseIml: RoomDatabaseIml)
-    fun inject(dataSourceLocal: DataSourceLocal)
-    fun inject(dataSourceRemote: DataSourceRemote)
-    fun inject(repositoryImp: RepositoryImp)
-    fun inject(mainViewModel: MainViewModel)
-    fun inject(repositoryLocalImp: RepositoryLocalImp)
+
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance context: Context): AppComponent
+    }
+
+    fun inject(mainFragment: MainFragment)
+
 }

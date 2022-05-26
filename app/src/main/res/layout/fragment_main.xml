@@ -5,13 +5,14 @@
     style="@style/FoneBtn"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.MainFragment">
+    tools:context=".ui.MainFragment">
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/zero_dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/convert_container"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
